@@ -17,6 +17,12 @@ class Url < ActiveRecord::Base
     userurl.long_url
   end
 
+  def self.add_tag(shortened_url, tag)
+    url_id = self.where(:shortened_url => shortened_url)[0].id
+    tag_id = Tag.where(:tag => tag)[0].id
+    UrlTag.create(:url_id => url_id, :tag_id => tag_id)
+  end
+
   def visits
     Visit.count(:conditions => "url_id = #{self.id}")
   end
